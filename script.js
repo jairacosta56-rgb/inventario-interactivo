@@ -1,39 +1,123 @@
-// ==========================================
-// SISTEMA DE AUDITORÍA DE INVENTARIO
+// ======================================================
+// SISTEMA DE AUDITORÍA DE INVENTARIO FOTOGRÁFICO
 // Evaluación Final POA
-// Jair Acosta Hernández
-// ==========================================
+// Autor: Jair Acosta Hernández
+// ======================================================
 
-// Inventario
+
+//===========================
+// INVENTARIO
+//===========================
+
 const inventario = [
-    { codigo: "P001", nombre: "Cámara fotográfica Nikon", minimo: 5 },
-    { codigo: "P002", nombre: "Cámara fotográfica Sony", minimo: 5 },
-    { codigo: "P003", nombre: "Lente 80 mm", minimo: 5 },
-    { codigo: "P004", nombre: "Flash", minimo: 3 },
-    { codigo: "P005", nombre: "Memoria SD", minimo: 10 },
-    { codigo: "P006", nombre: "Disco duro SSD", minimo: 6 },
-    { codigo: "P007", nombre: "Trípode", minimo: 5 }
+
+    {
+        codigo: "P001",
+        nombre: "Cámara fotográfica Nikon",
+        minimo: 5
+    },
+
+    {
+        codigo: "P002",
+        nombre: "Cámara fotográfica Sony",
+        minimo: 5
+    },
+
+    {
+        codigo: "P003",
+        nombre: "Lente 80 mm",
+        minimo: 5
+    },
+
+    {
+        codigo: "P004",
+        nombre: "Flash",
+        minimo: 3
+    },
+
+    {
+        codigo: "P005",
+        nombre: "Memoria SD",
+        minimo: 10
+    },
+
+    {
+        codigo: "P006",
+        nombre: "Disco duro SSD",
+        minimo: 6
+    },
+
+    {
+        codigo: "P007",
+        nombre: "Trípode",
+        minimo: 5
+    }
+
 ];
 
-// Referencias
-const table = document.getElementById("inventoryTable");
-const report = document.getElementById("report");
-const reportContent = document.getElementById("reportContent");
-const restock = document.getElementById("restock");
-const restockContent = document.getElementById("restockContent");
 
 
-// ============================
+//===========================
+// REFERENCIAS
+//===========================
+
+const tabla = document.getElementById("inventoryTable");
+
+const reporte = document.getElementById("report");
+
+const contenidoReporte = document.getElementById("reportContent");
+
+const reabastecimiento = document.getElementById("restock");
+
+const contenidoReabastecimiento = document.getElementById("restockContent");
+
+const fechaActual = document.getElementById("fechaActual");
+
+const totalArticulos = document.getElementById("totalArticulos");
+
+const articulosPedido = document.getElementById("articulosPedido");
+
+const porcentaje = document.getElementById("porcentaje");
+
+
+
+//===========================
+// FECHA AUTOMÁTICA
+//===========================
+
+const hoy = new Date();
+
+fechaActual.innerHTML =
+    "<strong>Fecha:</strong> " +
+    hoy.toLocaleDateString("es-CO") +
+    " " +
+    hoy.toLocaleTimeString("es-CO");
+
+
+
+//===========================
+// ESTADÍSTICAS
+//===========================
+
+totalArticulos.textContent = inventario.length;
+
+articulosPedido.textContent = "0";
+
+porcentaje.textContent = "100%";
+
+
+
+//===========================
 // CARGAR TABLA
-// ============================
+//===========================
 
-function cargarTabla(){
+function cargarTabla() {
 
-    table.innerHTML = "";
+    tabla.innerHTML = "";
 
-    inventario.forEach((articulo,index)=>{
+    inventario.forEach((articulo, indice) => {
 
-        table.innerHTML += `
+        tabla.innerHTML += `
 
         <tr>
 
@@ -45,8 +129,8 @@ function cargarTabla(){
 
                 <input
                     type="number"
+                    id="stock${indice}"
                     min="0"
-                    id="stock${index}"
                     value="0">
 
             </td>
@@ -62,13 +146,14 @@ function cargarTabla(){
 cargarTabla();
 
 
-// ============================
+
+//===========================
 // CALCULAR PEDIDO
-// ============================
+//===========================
 
-function calcularPedido(actual,minimo){
+function calcularPedido(actual, minimo) {
 
-    if(actual < minimo){
+    if (actual < minimo) {
 
         return minimo - actual;
 
@@ -79,19 +164,20 @@ function calcularPedido(actual,minimo){
 }
 
 
-// ============================
-// CLASIFICAR
-// ============================
 
-function clasificar(actual,minimo){
+//===========================
+// CLASIFICAR INVENTARIO
+//===========================
 
-    if(actual <= minimo/2){
+function clasificar(actual, minimo) {
+
+    if (actual <= minimo / 2) {
 
         return "CRÍTICO";
 
     }
 
-    if(actual < minimo){
+    if (actual < minimo) {
 
         return "BAJO";
 
@@ -102,118 +188,144 @@ function clasificar(actual,minimo){
 }
 
 
-// ============================
+
+//===========================
+// VALIDAR NÚMERO
+//===========================
+
+function validar(valor) {
+
+    if (isNaN(valor)) {
+
+        return false;
+
+    }
+
+    if (valor < 0) {
+
+        return false;
+
+    }
+
+    return true;
+
+}
+
+
+
+//===========================
+// OBTENER COLOR
+//===========================
+
+function obtenerClase(estado) {
+
+    switch (estado) {
+
+        case "CRÍTICO":
+
+            return {
+
+                item: "critical",
+
+                badge: "badge-critical"
+
+            };
+
+        case "BAJO":
+
+            return {
+
+                item: "low",
+
+                badge: "badge-low"
+
+            };
+
+        default:
+
+            return {
+
+                item: "ok",
+
+                badge: "badge-ok"
+
+            };
+
+    }
+
+}
+//======================================================
 // GENERAR REPORTE
-// ============================
+//======================================================
 
 document
 .getElementById("generateReport")
-.addEventListener("click",()=>{
+.addEventListener("click", () => {
 
-    report.classList.remove("hidden");
-    restock.classList.remove("hidden");
+    reporte.classList.remove("hidden");
+    reabastecimiento.classList.remove("hidden");
 
-    reportContent.innerHTML="";
-    restockContent.innerHTML="";
+    contenidoReporte.innerHTML = "";
+    contenidoReabastecimiento.innerHTML = "";
 
-    let hayPedidos=false;
+    let cantidadPedidos = 0;
+    let cantidadSuficientes = 0;
 
-    inventario.forEach((articulo,index)=>{
+    inventario.forEach((articulo, indice) => {
 
-        const actual=parseInt(
-            document.getElementById(`stock${index}`).value
+        const actual = parseInt(
+            document.getElementById(`stock${indice}`).value
         );
 
-        if(isNaN(actual) || actual<0){
+        if (!validar(actual)) {
 
             alert(
-                "Ingrese solamente cantidades válidas."
+                "Ingrese únicamente números enteros mayores o iguales a cero."
             );
 
-            return;
+            throw new Error("Dato inválido.");
 
         }
 
-        const estado=clasificar(
+        const estado = clasificar(
             actual,
             articulo.minimo
         );
 
-        const pedir=calcularPedido(
+        const pedir = calcularPedido(
             actual,
             articulo.minimo
         );
 
-        let clase="";
-        let badge="";
+        const clase = obtenerClase(estado);
 
-        if(estado==="CRÍTICO"){
+        if (estado === "SUFICIENTE") {
 
-            clase="critical";
-            badge="badge-critical";
+            cantidadSuficientes++;
 
         }
 
-        else if(estado==="BAJO"){
+        contenidoReporte.innerHTML += `
 
-            clase="low";
-            badge="badge-low";
+        <div class="item ${clase.item}">
 
-        }
+            <h3>${articulo.nombre}</h3>
 
-        else{
+            <p><strong>Código:</strong> ${articulo.codigo}</p>
 
-            clase="ok";
-            badge="badge-ok";
+            <p><strong>Existencias:</strong> ${actual}</p>
 
-        }
+            <p><strong>Stock mínimo:</strong> ${articulo.minimo}</p>
 
-        reportContent.innerHTML += `
-
-        <div class="item ${clase}">
-
-            <h3>
-
-                ${articulo.nombre}
-
-            </h3>
-
-            <p>
-
-                Código:
-                <strong>${articulo.codigo}</strong>
-
-            </p>
-
-            <p>
-
-                Stock disponible:
-                <strong>${actual}</strong>
-
-            </p>
-
-            <p>
-
-                Stock mínimo:
-                <strong>${articulo.minimo}</strong>
-
-            </p>
-
-            <span class="badge ${badge}">
-
+            <span class="badge ${clase.badge}">
                 ${estado}
-
             </span>
 
             <p style="margin-top:15px;">
 
-                Cantidad a solicitar:
+                <strong>Unidades a solicitar:</strong>
 
-                <strong>
-
-                    ${pedir}
-
-                </strong>
+                ${pedir}
 
             </p>
 
@@ -221,30 +333,21 @@ document
 
         `;
 
-        if(pedir>0){
+        if (pedir > 0) {
 
-            hayPedidos=true;
+            cantidadPedidos++;
 
-            restockContent.innerHTML += `
+            contenidoReabastecimiento.innerHTML += `
 
-            <div class="item">
+            <div class="item ${clase.item}">
 
-                📦
-                <strong>
-
-                    ${articulo.nombre}
-
-                </strong>
+                📦 <strong>${articulo.nombre}</strong>
 
                 <br><br>
 
-                Solicitar
+                Deben solicitarse
 
-                <strong>
-
-                    ${pedir}
-
-                </strong>
+                <strong>${pedir}</strong>
 
                 unidades.
 
@@ -256,13 +359,43 @@ document
 
     });
 
-    if(!hayPedidos){
 
-        restockContent.innerHTML=`
+
+//======================================================
+// ESTADÍSTICAS
+//======================================================
+
+    articulosPedido.textContent = cantidadPedidos;
+
+    const cumplimiento = Math.round(
+        (cantidadSuficientes / inventario.length) * 100
+    );
+
+    porcentaje.textContent = cumplimiento + "%";
+
+
+
+//======================================================
+// SI TODO ESTÁ BIEN
+//======================================================
+
+    if (cantidadPedidos === 0) {
+
+        contenidoReabastecimiento.innerHTML = `
 
         <div class="item ok">
 
-            ✅ Todos los artículos tienen existencias suficientes.
+            <h3>
+
+                ✅ Inventario en buen estado
+
+            </h3>
+
+            <p>
+
+                Ningún artículo requiere reabastecimiento.
+
+            </p>
 
         </div>
 
@@ -270,32 +403,70 @@ document
 
     }
 
-    report.scrollIntoView({
 
-        behavior:"smooth"
+
+//======================================================
+// DESPLAZAMIENTO AUTOMÁTICO
+//======================================================
+
+    reporte.scrollIntoView({
+
+        behavior: "smooth"
 
     });
 
 });
 
 
-// ============================
+
+//======================================================
 // LIMPIAR
-// ============================
+//======================================================
 
 document
 .getElementById("clearData")
-.addEventListener("click",()=>{
+.addEventListener("click", () => {
 
-    inventario.forEach((articulo,index)=>{
+    inventario.forEach((articulo, indice) => {
 
         document.getElementById(
-            `stock${index}`
-        ).value=0;
+            `stock${indice}`
+        ).value = 0;
 
     });
 
-    report.classList.add("hidden");
-    restock.classList.add("hidden");
+    reporte.classList.add("hidden");
+
+    reabastecimiento.classList.add("hidden");
+
+    contenidoReporte.innerHTML = "";
+
+    contenidoReabastecimiento.innerHTML = "";
+
+    articulosPedido.textContent = "0";
+
+    porcentaje.textContent = "100%";
+
+});
+
+
+
+//======================================================
+// IMPRIMIR
+//======================================================
+
+document
+.getElementById("printReport")
+.addEventListener("click", () => {
+
+    if (reporte.classList.contains("hidden")) {
+
+        alert("Primero genere el reporte.");
+
+        return;
+
+    }
+
+    window.print();
 
 });
