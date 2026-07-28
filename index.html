@@ -22,8 +22,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
           rel="stylesheet">
 
-    <!-- CSS -->
-
     <link rel="stylesheet"
           href="style.css">
 
@@ -32,6 +30,8 @@
 <body>
 
 <div class="container">
+
+    <!-- ENCABEZADO -->
 
     <header>
 
@@ -43,19 +43,59 @@
 
         </p>
 
+        <div class="info">
+
+            <span><strong>Estudiante:</strong> Jair Acosta Hernández</span>
+
+            <span><strong>Programa:</strong> Ingeniería de Sistemas</span>
+
+            <span><strong>Universidad:</strong> UNAD</span>
+
+            <span id="fechaActual"></span>
+
+        </div>
+
     </header>
+
+    <!-- TARJETAS -->
+
+    <section class="dashboard">
+
+        <div class="box">
+
+            <h3>Total de artículos</h3>
+
+            <h2 id="totalArticulos">7</h2>
+
+        </div>
+
+        <div class="box">
+
+            <h3>Reabastecimiento</h3>
+
+            <h2 id="articulosPedido">0</h2>
+
+        </div>
+
+        <div class="box">
+
+            <h3>Cumplimiento</h3>
+
+            <h2 id="porcentaje">100%</h2>
+
+        </div>
+
+    </section>
+
+    <!-- INVENTARIO -->
 
     <section class="card">
 
-        <h2>
-
-            Ingreso de Inventario
-
-        </h2>
+        <h2>Ingreso de Inventario</h2>
 
         <p>
 
-            Digite la cantidad disponible de cada artículo.
+            Digite las unidades disponibles de cada artículo.
 
         </p>
 
@@ -85,19 +125,27 @@
 
             <button id="generateReport">
 
-                Generar Reporte
+                📊 Generar Reporte
+
+            </button>
+
+            <button id="printReport">
+
+                🖨️ Imprimir PDF
 
             </button>
 
             <button id="clearData">
 
-                Limpiar
+                🔄 Limpiar
 
             </button>
 
         </div>
 
     </section>
+
+    <!-- REPORTE -->
 
     <section id="report"
              class="card hidden">
@@ -114,6 +162,8 @@
 
     </section>
 
+    <!-- REABASTECIMIENTO -->
+
     <section id="restock"
              class="card hidden">
 
@@ -128,6 +178,24 @@
         </div>
 
     </section>
+
+    <!-- PIE -->
+
+    <footer>
+
+        <p>
+
+            Sistema desarrollado en HTML, CSS y JavaScript
+
+        </p>
+
+        <p>
+
+            © 2026 - Jair Acosta Hernández
+
+        </p>
+
+    </footer>
 
 </div>
 
