@@ -5,22 +5,24 @@
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <title>Para Mare ❤️</title>
+    <title>Sistema de Auditoría de Inventario Fotográfico</title>
 
     <!-- Google Fonts -->
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
 
     <link rel="preconnect"
           href="https://fonts.gstatic.com"
           crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Poppins:wght@300;400;500&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
           rel="stylesheet">
+
+    <!-- CSS -->
 
     <link rel="stylesheet"
           href="style.css">
@@ -29,46 +31,67 @@
 
 <body>
 
-    <!-- Fondo -->
+<div class="container">
 
-    <div id="stars"></div>
+    <header>
 
-    <div id="particles"></div>
+        <h1>📸 Sistema de Auditoría de Inventario Fotográfico</h1>
 
-    <!-- Tarjeta -->
+        <p>
 
-    <section class="welcome">
+            Evaluación Final POA
 
-        <div class="glass">
+        </p>
 
-            <span class="small">
+    </header>
 
-                ✨ Preparado especialmente para ti ✨
+    <section class="card">
 
-            </span>
+        <h2>
 
-            <h1>
+            Ingreso de Inventario
 
-                Feliz cumpleaños
+        </h2>
 
-            </h1>
+        <p>
 
-            <h2>
+            Digite la cantidad disponible de cada artículo.
 
-                Mare ❤️
+        </p>
 
-            </h2>
+        <table>
 
-            <p>
+            <thead>
 
-                Hay personas que llegan a nuestra vida
-                para dejar recuerdos que el tiempo nunca borra.
+                <tr>
 
-            </p>
+                    <th>Código</th>
 
-            <button id="start">
+                    <th>Artículo</th>
 
-                Comenzar
+                    <th>Stock Disponible</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="inventoryTable">
+
+            </tbody>
+
+        </table>
+
+        <div class="buttons">
+
+            <button id="generateReport">
+
+                Generar Reporte
+
+            </button>
+
+            <button id="clearData">
+
+                Limpiar
 
             </button>
 
@@ -76,60 +99,39 @@
 
     </section>
 
-    <!-- Carta -->
+    <section id="report"
+             class="card hidden">
 
-    <section id="letterSection"
-             class="hidden">
+        <h2>
 
-        <div class="letter">
+            Reporte General del Inventario
 
-            <pre id="typing"></pre>
+        </h2>
 
-            <div id="finalMessage"
-                 class="hidden">
-
-                <h3>
-
-                    🎁 Ahora abre tu regalo
-
-                </h3>
-
-                <p>
-
-                    El dinero que encontrarás
-                    es para que puedas comprar
-                    aquello que realmente te haga feliz.
-
-                </p>
-
-                <p>
-
-                    Solo espero que cuando
-                    veas ese regalo,
-                    recuerdes este momento
-                    con una sonrisa.
-
-                </p>
-
-                <h2>
-
-                    Con mucho cariño
-
-                </h2>
-
-                <h1>
-
-                    Jair ❤️
-
-                </h1>
-
-            </div>
+        <div id="reportContent">
 
         </div>
 
     </section>
 
-    <script src="script.js"></script>
+    <section id="restock"
+             class="card hidden">
+
+        <h2>
+
+            Artículos que necesitan reabastecimiento
+
+        </h2>
+
+        <div id="restockContent">
+
+        </div>
+
+    </section>
+
+</div>
+
+<script src="script.js"></script>
 
 </body>
 
